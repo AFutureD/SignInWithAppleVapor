@@ -7,6 +7,26 @@
 
 import Foundation
 import JWTKit
+import Vapor
+
+public extension Application {
+    
+    struct AppleSignInPropertiesStorageKey: StorageKey {
+        public typealias Value = AppleSignInProperties
+    }
+    
+    var appleSignInProperties: AppleSignInProperties {
+        get {
+            guard let client = self.storage[AppleSignInPropertiesStorageKey.self] else {
+                fatalError("AppleApi not setup.")
+            }
+            return client
+        }
+        set {
+            self.storage.set(AppleSignInPropertiesStorageKey.self, to: newValue)
+        }
+    }
+}
 
 public struct AppleSignInProperties {
     public let teamID: String
